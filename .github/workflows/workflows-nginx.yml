@@ -28,17 +28,18 @@ jobs:
           aws s3 cp ./nginx/default.conf s3://${{ secrets.S3_BUCKET_NAME }}/nginx/default.conf
           aws s3 cp ./docker-compose.yaml s3://${{ secrets.S3_BUCKET_NAME }}/docker-compose.yaml
           aws s3 sync ./nginx/html/ s3://${{ secrets.S3_BUCKET_NAME }}/html/ --delete
+      
       # 이미지 빌드 및 ECR 레포지토리로 업로드
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+
       - name: Build and push Docker image to ECR Repository
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-        # 도커파일이 현재 nginx 아래에 있으므로 ./nginx
           docker build --no-cache -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./nginx
           docker build --no-cache -t $ECR_REGISTRY/$ECR_REPOSITORY:latest ./nginx
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
