@@ -1,0 +1,24 @@
+#서비스 명 즉 앱 명임 예를 들면 nginx인지 fastapi인지 
+services:   
+  nginx-app:
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - /home/ec2-user/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - /home/ec2-user/nginx/html:/usr/share/nginx/html
+      - /home/ec2-user/nginx/logs:/var/log/nginx
+    restart: always
+
+    networks:
+      public-subnet: # 이름이 같아야함
+        aliases:
+          - nginx-svc
+
+
+
+
+networks:
+  public-subnet: # 이름이 같아야함
+    driver: bridge
