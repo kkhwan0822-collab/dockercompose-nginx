@@ -70,3 +70,4 @@ jobs:
               "rm -f /home/ec2-user/nginx/Dockerfile",
               "docker image prune -f"
             ]'
+            
