@@ -1,4 +1,4 @@
-name: nginx-company-deploy-with-compose
+name: nginx-deploy-with-compose
 
 on:
   push:
@@ -63,8 +63,8 @@ jobs:
               "export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}",
               "export ECR_REPOSITORY=${{ secrets.ECR_REPOSITORY }}",
               "export IMAGE_TAG=${{ github.sha }}",        
-              "docker stop nginx-container",
-              "docker rm nginx-container",
+              "docker stop nginx-company",
+              "docker rm nginx-company",
               "docker rmi $(docker images -q)",
               "cd /home/ec2-user/nginx",
               "docker compose pull",
