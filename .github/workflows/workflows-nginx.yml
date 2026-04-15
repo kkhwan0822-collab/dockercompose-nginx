@@ -53,7 +53,7 @@ jobs:
             --region ${{secrets.AWS_REGION}} \
             --parameters 'commands=[
               "mkdir -p /home/ec2-user/nginx/html",
-              "mkdir -p /home/ec2-user/nginx/default,
+              "mkdir -p /home/ec2-user/nginx/default",
               "mkdir -p /home/ec2-user/nginx/logs",
               "chown -R ec2-user:ec2-user /home/ec2-user/nginx",
               "aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/html/ /home/ec2-user/nginx/html/ --delete",
